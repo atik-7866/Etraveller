@@ -16,25 +16,36 @@ const validateListing=(req,res,next)=>{
         throw new ExpressError(400,errMsg)
       }else next()
   }
-//Index Route
-router.get("/", wrapAsync(index));
-  
-  //New Route
-  router.get("/new",isLoggedIn, newForm);
-  
+
+  // Using Route.route
+  router.
+  route("/")
+  .get(wrapAsync(index))
+  .post(isLoggedIn,validateListing, wrapAsync(create));
+
+   //New Route
+   router.get("/new",isLoggedIn, newForm);
+router.route("/:id")
+
+  .put(isLoggedIn,isOwner,validateListing, wrapAsync(update))
+  .delete( isLoggedIn,isOwner,deleteRoute)
+  .get(show );
+// //Index Route
+// router.get("/", wrapAsync(index));
+ 
   //Show Route
-  router.get("/:id",show );
+  // router.get("/:id",show );
   
   //Create Route
-  router.post("/",isLoggedIn,validateListing, wrapAsync(create));
+  // router.post("/",isLoggedIn,validateListing, wrapAsync(create));
   
   //Edit Route
   router.get("/:id/edit", isLoggedIn,isOwner,edit);
   
   //Update Route
-  router.put("/:id",isLoggedIn,isOwner,validateListing, wrapAsync(update));
+  // router.put("/:id",isLoggedIn,isOwner,validateListing, wrapAsync(update));
   
   //Delete Route
-  router.delete("/:id", isLoggedIn,isOwner,deleteRoute);
+  // router.delete("/:id", isLoggedIn,isOwner,deleteRoute);
 
   module.exports=router

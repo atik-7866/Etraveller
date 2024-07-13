@@ -5,12 +5,19 @@ const wrapAsync=require("../utils/wrapAsync.js")
 const passport=require("passport")
 const {saveRedirectUrl}=require("../middleware.js")
 const {signup,logout}=require("../controllers/user.js")
-// SIGNUP
-router.get("/signup",(req,res)=>{
+
+
+router.route("/signup")
+.get((req,res)=>{
     res.render("users/signup.ejs")
 })
+.post(wrapAsync(signup))
+// SIGNUP
+// router.get("/signup",(req,res)=>{
+//     res.render("users/signup.ejs")
+// })
 
-router.post("/signup",wrapAsync(signup))
+// router.post("/signup",wrapAsync(signup))
 
 
 // LOGIN
